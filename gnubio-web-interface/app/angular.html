@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html ng-app="MeltingTempApp">
+<head>
+  <title>Melting Temperatures</title>
+  <script src="http://code.jquery.com/jquery-2.1.0.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.5/angular.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.5/angular-resource.min.js"></script>
+  
+  <!-- 
+  <script src="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/jquery.dataTables.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.11.0/angular.min.js"></script>
+  -->
+  <script src="js/services.js"></script>
+  <script src="js/controllers.js"></script>
+  <script src="js/app.js"></script>
+</head>
+
+<body ng-controller="tempsController2">
+  <p>Hello World</p>
+  <p> {{data.temp}} </p>
+  <p> {{data.temp.name}} </p>
+  <p> {{data.temp.sequence}} </p>
+  <p> {{name}} </p>
+</body>
+</html>
