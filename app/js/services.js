@@ -2,7 +2,7 @@
 
 angular.module('MeltingTempApp.services', ['ngResource'])
 	.factory('meltingTempAPIservice2', function($resource){
-		return $resource('http://localhost:8000/MeltingTemps/Rest?name=CLR_WT&sequence=GTGGATCAAAGCCACT', {})
+		return $resource('http://localhost:8010/MeltingTemps/Rest?name=CLR_WT&sequence=GTGGATCAAAGCCACT', {})
 	})
 	.factory('meltingTempAPIservice', function($http) {
 		
@@ -11,7 +11,7 @@ angular.module('MeltingTempApp.services', ['ngResource'])
 		meltingTempAPI.getTemp = function() {
 			return $http({
 				method: 'JSONP',
-				url: "http://localhost:8000/MeltingTemps/Rest?name=CLR_WT&sequence=GTGGATCAAAGCCACT"
+				url: "http://localhost:8010/MeltingTemps/Rest?name=CLR_WT&sequence=GTGGATCAAAGCCACT"
 			});
 		}
 	return meltingTempAPI;
