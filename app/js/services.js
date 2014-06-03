@@ -5,10 +5,10 @@ angular.module('MeltingTempApp.services', ['ngResource'])
 	
 		var meltingTempAPI = {};
 	
-		meltingTempAPI.getTemp = function(sequences) {
+		meltingTempAPI.getTemp = function(names, sequences) {
 			return $http({
 				method: 'GET',
-				url: 'http://localhost:8010/api/v1/MeltingTemperatures/IDT?sequence=' + sequences,
+				url: 'http://localhost:8010/api/v1/MeltingTemperatures/IDT?sequence_name=' + names + '&sequence=' + sequences,
 				mozSystem: true
 			});
 		}

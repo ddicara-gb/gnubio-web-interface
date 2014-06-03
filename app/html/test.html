@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="APP">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+    <link data-require="bootstrap-css@*" data-semver="3.0.0" rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" />
+    <script data-require="angular.js@*" data-semver="1.2.0-rc2" src="http://code.angularjs.org/1.2.0-rc.2/angular.js"></script>
+  </head>
+  <body ng-controller="appController">
+    <div class="alert alert-info" ng-show="loading">Loading</div>
+    <div ng-controller="myController">
+      <ul>
+        <li ng-repeat="person in people">
+                  {{person.fname}}
+              </li>
+      </ul>
+    </div>
+    <script>
+    angular.module('APP',[]).controller('myController',['$scope','$http',function($scope,$http){
+        $scope.$emit('LOAD')
+        $http.jsonp('http://filltext.com/?rows=10&delay=5&fname={firstName}&callback=JSON_CALLBACK')
+        .success(function(data){
+            $scope.people=data
+            $scope.$emit('UNLOAD')
+        })
+    }]).
+    controller('appController',['$scope',function($scope){
+        $scope.$on('LOAD',function(){$scope.loading=true});
+        $scope.$on('UNLOAD',function(){$scope.loading=false});
+    }])
+    </script>
+  </body>
+</html>
