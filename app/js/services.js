@@ -8,7 +8,7 @@ angular.module('MeltingTempApp.services', ['ngResource'])
 		meltingTempAPI.getTemp = function(names, sequences) {
 			return $http({
 				method: 'GET',
-				url: 'http://localhost:8010/api/v1/MeltingTemperatures/IDT?sequence_name=' + names + '&sequence=' + sequences,
+				url: 'http://localhost:8010/api/v1/MeltingTemperature/IDT?sequence_name=' + names + '&sequence=' + sequences,
 				mozSystem: true
 			});
 		}

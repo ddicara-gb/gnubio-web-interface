@@ -5,6 +5,7 @@ angular.module('MeltingTempApp.controllers', [])
 		$scope.results = null;
 		$scope.loading = false;
 		$scope.show_table = false;
+		$scope.query_failed = false;
 		$scope.get_temps = function() {
 			
 			// Create an array of non-empty lines.
@@ -30,13 +31,16 @@ angular.module('MeltingTempApp.controllers', [])
 					$scope.loading = false;
 					$scope.$emit('UNLOAD');
 					$scope.show_table = true;
+					$scope.query_failed = false;
 				}).error(function(response) {
 					$scope.loading = false;
 					$scope.$emit('UNLOAD');
 					$scope.show_table = false;
+					$scope.query_failed = true;
 				});
 			} else {
 				$scope.show_table = false;
+				$scope.query_failed = true;
 			}
 		}
 	})
