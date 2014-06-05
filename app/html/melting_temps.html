@@ -62,58 +62,58 @@
       command line using curl. Furthermore, these services can be
       scripted to perform bulk operations or to chain operations to run
       a workflow/pipeline.</p>
-    <div ng-controller="loadController">
-      <div ng-controller="tempsController">
-        <div>
-          <h2>Melting Temperatures</h2>
-          <p>Copy and paste your list of sequences below. The list
-            should begin with a header, followed by the list of comma
-            delimited name/sequence pairs. Each name/sequence pair must
-            reside on its own line.</p>
-          <p>
-            Example: <br> <br>Name,Sequence <br>HEX_E11_WT_F4,CGTATATCc
-            <br>HEX_E11_WT_F5,CGTATATCct <br>HEX_E11_WT_F6,GTATATCcta
-          </p>
+    <div ng-controller="tempsController">
+      <div>
+        <h2>Melting Temperatures</h2>
+        <p>Copy and paste your list of sequences below. The list
+          should begin with a header, followed by the list of comma
+          delimited name/sequence pairs. Each name/sequence pair must
+          reside on its own line.</p>
+        <p>
+          Example: <br> <br>Name,Sequence <br>HEX_E11_WT_F4,CGTATATCc
+          <br>HEX_E11_WT_F5,CGTATATCct <br>HEX_E11_WT_F6,GTATATCcta
+        </p>
 
-        </div>
-        <div>
-          <form name="mt_form">
-            <textarea class="melting_temps_input" name="in_seq"
-              rows=10 ng-model="in_seq" required>
-             
+      </div>
+      <div>
+        <form name="mt_form">
+          <textarea class="melting_temps_input" name="in_seq" rows=10
+            ng-model="in_seq" required>
               </textarea>
-            <span class="error"
-              ng-show="mt_form.in_seq.$error.required">
-              Required!</span><br>
-            <button ng-click="get_temps()" ng-disabled="!loading || mt_form.$invalid">Submit</button>
-          </form>
-        </div>
-        <h2 class="sub-header">Results</h2>
-        <div ng-show="loading">
-          <img src="../images/loading.gif" id="loading-indicator"/>
-        </div>
-        <div ng-show="!loading && query_failed">
-        <p><b>Query failed:</b> <em>Ensure your input in the text area is properly formatted.</em></p>
-        </div>
-        <div class="table-responsive" ng-show="show_table">
-          <table class="table table-striped">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Sequence</th>
-                <th>Tm</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr ng-repeat="entity in results">
-                <td>{{ entity.Name }}</td>
-                <td>{{ entity.Sequence }}</td>
-                <td>{{ entity.Tm }}</td>
-              </tr>
-              <tr>
-            </tbody>
-          </table>
-        </div>
+          <span class="error" ng-show="mt_form.in_seq.$error.required">
+            Required!</span><br>
+          <button ng-click="get_temps()"
+            ng-disabled="loading || mt_form.$invalid">Submit</button>
+        </form>
+      </div>
+      <h2 class="sub-header">Results</h2>
+      <div ng-show="loading">
+        <img src="../images/loading.gif" id="loading-indicator" />
+      </div>
+      <div ng-show="!loading && query_failed">
+        <p>
+          <b>Query failed:</b> <em>Ensure your input area is
+            properly formatted.</em>
+        </p>
+      </div>
+      <div class="table-responsive" ng-show="show_table">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Sequence</th>
+              <th>Tm</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="entity in results">
+              <td>{{ entity.Name }}</td>
+              <td>{{ entity.Sequence }}</td>
+              <td>{{ entity.Tm }}</td>
+            </tr>
+            <tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>

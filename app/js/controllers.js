@@ -12,7 +12,6 @@ angular.module('MeltingTempApp.controllers', [])
 			if ($scope.in_seq) {
 				$scope.loading = true;
 				$scope.show_table = false;
-				$scope.$emit('LOAD');
 
 				var lines = $scope.in_seq.replace(/^\s*[\r\n]/gm,'').split('\n');
 				var sequence_array = new Array(lines.length-1);
@@ -29,12 +28,10 @@ angular.module('MeltingTempApp.controllers', [])
 				meltingTempAPIservice.getTemp(names, sequences).success(function (response) {
 					$scope.results = response['IDT'];
 					$scope.loading = false;
-					$scope.$emit('UNLOAD');
 					$scope.show_table = true;
 					$scope.query_failed = false;
 				}).error(function(response) {
 					$scope.loading = false;
-					$scope.$emit('UNLOAD');
 					$scope.show_table = false;
 					$scope.query_failed = true;
 				});
@@ -44,10 +41,6 @@ angular.module('MeltingTempApp.controllers', [])
 			}
 		}
 	})
-	.controller('loadController',['$scope',function($scope){
-        $scope.$on('LOAD',function(){$scope.loading=true});
-        $scope.$on('UNLOAD',function(){$scope.loading=false});
-	}])
 	.controller('fileWriteController', ['$scope', function($scope) {
 		$scope.write_file = function() {
 			var fs = require('fs');
