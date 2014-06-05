@@ -14,7 +14,8 @@ angular.module('MeltingTempApp.services', ['ngResource'])
 			return $http({
 				method: 'GET',
 				url: query_url,
-				mozSystem: true
+				mozSystem: true,
+				cache: true
 			});
 		}
 		return meltingTempAPI;

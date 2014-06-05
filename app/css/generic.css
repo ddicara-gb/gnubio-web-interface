@@ -2,11 +2,9 @@
 
 textarea.melting_temps_input {
 	width: 80%;
-	color: blue;
 }
 
 #loading-indicator {
-  /*position: absolute;*/
   left: 10px;
   top: 10px;
 }

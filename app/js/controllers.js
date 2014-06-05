@@ -8,11 +8,11 @@ angular.module('MeltingTempApp.controllers', [])
 		$scope.query_failed = false;
 		$scope.get_temps = function() {
 			
-			// Create an array of non-empty lines.
 			if ($scope.in_seq) {
 				$scope.loading = true;
 				$scope.show_table = false;
 
+				// Create an array of non-empty lines.
 				var lines = $scope.in_seq.replace(/^\s*[\r\n]/gm,'').split('\n');
 				var sequence_array = new Array(lines.length-1);
 				var names_array = new Array(lines.length-1);
@@ -30,6 +30,15 @@ angular.module('MeltingTempApp.controllers', [])
 					$scope.loading = false;
 					$scope.show_table = true;
 					$scope.query_failed = false;
+					var content = 'Name,Sequence,Tm';
+					for (var i = 0; i < $scope.results.length; i++) {
+						content += '\n' + [$scope.results[i].Name, 
+						                   $scope.results[i].Sequence, 
+						                   $scope.results[i].Tm
+						                  ].join(',')
+					}
+					var blob = new Blob([ content ], { type : 'text/plain' });
+					$scope.url = (window.URL || window.webkitURL).createObjectURL( blob );
 				}).error(function(response) {
 					$scope.loading = false;
 					$scope.show_table = false;
@@ -41,6 +50,11 @@ angular.module('MeltingTempApp.controllers', [])
 			}
 		}
 	})
+//	.controller('HeaderController', ['$scope','$location', function($scope, $location) { 
+//		$scope.isActive = function (viewLocation) { 
+//			return viewLocation === $location.path();
+//		};
+//	})
 	.controller('fileWriteController', ['$scope', function($scope) {
 		$scope.write_file = function() {
 			var fs = require('fs');
