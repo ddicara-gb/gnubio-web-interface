@@ -50,20 +50,11 @@ angular.module('MeltingTempApp.controllers', [])
 			}
 		}
 	})
-//	.controller('HeaderController', ['$scope','$location', function($scope, $location) { 
-//		$scope.isActive = function (viewLocation) { 
-//			return viewLocation === $location.path();
-//		};
-//	})
-	.controller('fileWriteController', ['$scope', function($scope) {
-		$scope.write_file = function() {
-			var fs = require('fs');
-			fs.writeFile("/tmp/test", "Hey there!", function(err) {
-				if(err) {
-					console.log(err);
-				} else {
-					console.log("The file was saved!");
-				}
-			}); 
-		}
-    }]);
+    .controller('homeController', function($scope) {
+    	$scope.info = 'TODO: Add content.';
+    })
+    .controller('HeaderController', function($scope, $location) { 
+    	$scope.isActive = function (viewLocation) { 
+        return viewLocation === $location.path();
+    	}
+    });

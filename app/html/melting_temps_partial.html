@@ -1,0 +1,63 @@
+<link rel="stylesheet" type="text/css" href="css/generic.css">
+<div ng-controller="tempsController">
+  <div class="page-header">
+    <h2>Melting Temperatures</h2>
+  </div>
+
+  <div>
+    <p class="lead"> Copy and paste your list of sequences below. The list should
+      begin with a header, followed by your comma delimited
+      name/sequence pairs. Each name/sequence pair must reside on its
+      own line. For example:</p>
+    <div style="padding-left: 5em;">
+      <p>
+        Name,Sequence<br>HEX_E11_WT_F4,CGTATATCc <br>HEX_E11_WT_F5,CGTATATCct
+        <br>HEX_E11_WT_F6,GTATATCcta
+      </p>
+    </div>
+  </div>
+  <div>
+    <form name="mt_form">
+      <textarea class="melting_temps_input" name="in_seq" rows=10
+        ng-model="in_seq" required
+        placeholder="Paste your sequence input here. Don't forget to include a header.">
+              </textarea>
+      <br>
+      <button class="btn btn-default" ng-click="get_temps()"
+        ng-disabled="loading || mt_form.$invalid">Submit</button>
+    </form>
+  </div>
+  <h2 class="sub-header">Results</h2>
+  <div ng-show="loading">
+    <p>
+      <img src="images/loading.gif" id="loading-indicator" />
+      Processing your request. This may take a few minutes...
+    </p>
+  </div>
+  <div ng-show="!loading && query_failed">
+    <p>
+      <b>Query failed:</b> <em>Ensure your input is properly
+        formatted.</em>
+    </p>
+  </div>
+  <div class="table-responsive" ng-show="show_table">
+    <a download="melting_temps.csv" ng-href="{{ url }}">Download CSV</a>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Sequence</th>
+          <th>Tm</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="entity in results">
+          <td>{{ entity.Name }}</td>
+          <td>{{ entity.Sequence }}</td>
+          <td>{{ entity.Tm }}</td>
+        </tr>
+        <tr>
+      </tbody>
+    </table>
+  </div>
+</div>
