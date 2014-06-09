@@ -16,9 +16,10 @@
   "dependencies": {
     "angular-promise-tracker": "~2.0.0",
     "angular-resource": "~1.2.16",
+    "angular-route": "~1.2.16",
     "angular": "~1.2.16",
     "jquery": "~2.1.1",
-    "bootstrap": "~3.1.1",
-    "underscore": "~1.6.0"
+    "underscore": "~1.6.0",
+    "bootstrap": "~3.1.1"
   }
 }
