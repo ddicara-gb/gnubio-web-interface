@@ -1,6 +1,6 @@
 'use strict';
 
-window.restBaseUrl = 'http://bioweb:8010/api/v1';
+window.restBaseUrl = 'http://bioweb:8020/api/v1';
 
 angular.module('MeltingTempApp.services', ['ngResource'])
 	.factory('meltingTempAPIservice', function($http) {
