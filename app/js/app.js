@@ -23,7 +23,7 @@ myApp.config(['$httpProvider', function($httpProvider) {
  
         // route for the home page
         .when('/', {
-            templateUrl : 'html/home.html',
+            templateUrl : 'html/home_partial.html',
             controller  : 'homeController'
         })
 		.when('/melting_temps', {
