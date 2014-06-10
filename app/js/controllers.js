@@ -30,16 +30,22 @@ angular.module('MeltingTempApp.controllers', [])
 					$scope.loading = false;
 					$scope.show_table = true;
 					$scope.query_failed = false;
-					var content = '';
+					var content_csv = 'Name,Sequence,Tm';
+					var content_tsv = 'Name\tSequence\tTm';
 					for (var i = 0; i < $scope.results.length; i++) {
-						content += [
-						            $scope.results[i].Name, 
-						            $scope.results[i].Sequence, 
-						            $scope.results[i].Tm
-						           ].join(' ') + "\n"
+						content_csv += '\n' + [$scope.results[i].Name, 
+						                       $scope.results[i].Sequence, 
+						                       $scope.results[i].Tm
+						                      ].join(',')
+						content_tsv += '\n' + [$scope.results[i].Name, 
+						                       $scope.results[i].Sequence, 
+						                       $scope.results[i].Tm
+						                      ].join('\t')
 					}
-					var blob = new Blob([ content ], { type : 'text/plain' });
-					$scope.url = (window.URL || window.webkitURL).createObjectURL( blob );
+					var blob_csv = new Blob([ content_csv ], { type : 'text/plain' });
+					var blob_tsv = new Blob([ content_tsv ], { type : 'text/plain' });
+					$scope.url_csv = (window.URL || window.webkitURL).createObjectURL( blob_csv );
+					$scope.url_tsv = (window.URL || window.webkitURL).createObjectURL( blob_tsv );
 				}).error(function(response) {
 					$scope.loading = false;
 					$scope.show_table = false;
