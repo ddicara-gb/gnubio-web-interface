@@ -14,14 +14,14 @@ angular.module('MeltingTempApp.controllers', [])
 
 				// Create an array of non-empty lines.
 				var lines = $scope.in_seq.replace(/^\s*[\r\n]/gm,'').split('\n');
-				var sequence_array = new Array(lines.length-1);
-				var names_array = new Array(lines.length-1);
+				var sequence_array = new Array(lines.length);
+				var names_array = new Array(lines.length);
 				
 				// Ignore header
-				for (var i = 1; i < lines.length; i++) { 
-					var fields = lines[i].split(',');
-					names_array[i-1] = fields[0];
-					sequence_array[i-1] = fields[1];
+				for (var i = 0; i < lines.length; i++) { 
+					var fields = lines[i].split(/[\s,]+/);
+					names_array[i] = fields[0];
+					sequence_array[i] = fields[1];
 				}
 				var names     = names_array.join(',');
 				var sequences = sequence_array.join(',');
@@ -30,12 +30,13 @@ angular.module('MeltingTempApp.controllers', [])
 					$scope.loading = false;
 					$scope.show_table = true;
 					$scope.query_failed = false;
-					var content = 'Name,Sequence,Tm';
+					var content = '';
 					for (var i = 0; i < $scope.results.length; i++) {
-						content += '\n' + [$scope.results[i].Name, 
-						                   $scope.results[i].Sequence, 
-						                   $scope.results[i].Tm
-						                  ].join(',')
+						content += [
+						            $scope.results[i].Name, 
+						            $scope.results[i].Sequence, 
+						            $scope.results[i].Tm
+						           ].join(' ') + "\n"
 					}
 					var blob = new Blob([ content ], { type : 'text/plain' });
 					$scope.url = (window.URL || window.webkitURL).createObjectURL( blob );
