@@ -1,0 +1,11 @@
+<div ng-controller="probeDesignController">
+  <div class="page-header">
+    <h2>Probe Design</h2>
+  </div>
+  <form name="targets_file_upload_form">
+    <input type="file" file-model="targetsFile" required />
+    <button class="btn btn-default" ng-click="uploadFile()"
+      ng-disabled="loading || targets_file_upload_form.$invalid">Submit</button>
+  </form>
+  
+</div>

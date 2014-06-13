@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app="MeltingTempApp">
+<html ng-app="BioinformaticsApp">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -10,6 +10,7 @@
   href="bower_components/bootstrap/dist/css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css"
   href="css/external/sticky-footer-navbar.css">
+<link rel="stylesheet" type="text/css" href="css/generic.css">
 
 </head>
 
@@ -27,6 +28,8 @@
           <li><a href="swagger/apis.html">APIs</a></li>
           <li ng-class="{active: isActive('/melting_temps')}"><a
             href="#melting_temps">Melting Temperatures</a></li>
+          <li ng-class="{active: isActive('/probe_design')}"><a
+            href="#probe_design">Probe Design</a></li>
         </ul>
       </div>
     </div>

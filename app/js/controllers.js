@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('MeltingTempApp.controllers', [])
+angular.module('BioinformaticsApp.controllers', [])
 	.controller('tempsController', function($scope, meltingTempAPIservice) {
 		$scope.results = null;
 		$scope.loading = false;
@@ -36,11 +36,11 @@ angular.module('MeltingTempApp.controllers', [])
 						content_csv += '\n' + [$scope.results[i].Name, 
 						                       $scope.results[i].Sequence, 
 						                       $scope.results[i].Tm
-						                      ].join(',')
+						                      ].join(',');
 						content_tsv += '\n' + [$scope.results[i].Name, 
 						                       $scope.results[i].Sequence, 
 						                       $scope.results[i].Tm
-						                      ].join('\t')
+						                      ].join('\t');
 					}
 					var blob_csv = new Blob([ content_csv ], { type : 'text/plain' });
 					var blob_tsv = new Blob([ content_tsv ], { type : 'text/plain' });
@@ -57,11 +57,27 @@ angular.module('MeltingTempApp.controllers', [])
 			}
 		}
 	})
+	.controller('probeDesignController', function($scope, targetsFileUploadService){
+		$scope.loading=false;
+		
+		$scope.uploadFile = function(){
+			$scope.loading=true;
+			var targetsFile = $scope.targetsFile;
+			console.log('file is ' + JSON.stringify(targetsFile));
+			targetsFileUploadService.uploadFileToUrl(targetsFile)
+			.success(function() {
+				$scope.loading = false;
+			})
+			.error(function() {
+				$scope.loading = false;
+			});
+		};
+	})
     .controller('homeController', function($scope) {
     	$scope.info = 'TODO: Add content.';
     })
     .controller('HeaderController', function($scope, $location) { 
     	$scope.isActive = function (viewLocation) { 
-        return viewLocation === $location.path();
+    		return viewLocation === $location.path();
     	}
     });

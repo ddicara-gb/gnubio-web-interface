@@ -2,7 +2,7 @@
 
 window.restBaseUrl = 'http://bioweb:8020/api/v1';
 
-angular.module('MeltingTempApp.services', ['ngResource'])
+angular.module('BioinformaticsApp.services', ['ngResource'])
 	.factory('meltingTempAPIservice', function($http) {
 	
 		var meltingTempAPI = {};
@@ -19,5 +19,20 @@ angular.module('MeltingTempApp.services', ['ngResource'])
 			});
 		}
 		return meltingTempAPI;
+	})
+	.factory('targetsFileUploadService', function ($http) {
+		
+		var uploadTargetsFileAPI = {}
+		var uploadUrl = [restBaseUrl, 'ProbeDesign', 'Targets'].join('/');
+		
+		uploadTargetsFileAPI.uploadFileToUrl = function(targetsFile){
+			var fd = new FormData();
+			fd.append('file', targetsFile);
+			return $http.post(uploadUrl, fd, {
+				transformRequest: angular.identity,
+				headers: {'Content-Type': undefined}
+			});
+		}
+		return uploadTargetsFileAPI;
 	})
 	.value('version', '0.1');
