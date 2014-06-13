@@ -59,17 +59,29 @@ angular.module('BioinformaticsApp.controllers', [])
 	})
 	.controller('probeDesignController', function($scope, targetsFileUploadService){
 		$scope.loading=false;
+		$scope.data = null;
+		$scope.status = null;
+		$scope.headers = null;
+		$scope.config = null;
 		
 		$scope.uploadFile = function(){
 			$scope.loading=true;
 			var targetsFile = $scope.targetsFile;
 			console.log('file is ' + JSON.stringify(targetsFile));
 			targetsFileUploadService.uploadFileToUrl(targetsFile)
-			.success(function() {
+			.success(function(data, status, headers, config) {
 				$scope.loading = false;
+				$scope.data = data;
+				$scope.status = status;
+				$scope.headers = headers;
+				$scope.config = config;
 			})
-			.error(function() {
+			.error(function(data, status, headers, config) {
 				$scope.loading = false;
+				$scope.data = data;
+				$scope.status = status;
+				$scope.headers = headers;
+				$scope.config = config;
 			});
 		};
 	})

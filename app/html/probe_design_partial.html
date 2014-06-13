@@ -3,9 +3,25 @@
     <h2>Probe Design</h2>
   </div>
   <form name="targets_file_upload_form">
-    <input type="file" file-model="targetsFile" required />
+    <input type="file" file-model="targetsFile" />
     <button class="btn btn-default" ng-click="uploadFile()"
-      ng-disabled="loading || targets_file_upload_form.$invalid">Submit</button>
+      ng-disabled="loading || !targetsFile">Submit</button>
   </form>
-  
+  <div ng-show="loading">
+    <p>
+      <img src="images/loading.gif" id="loading-indicator" /> Uploading
+      file...
+    </p>
+  </div>
+  <div ng-show="!loading && status">
+    <pre>File upload completed with status code {{status}}</pre>
+  </div>
+
+  <!-- 
+  <pre>{{data}}</pre>
+  <pre>{{status}}</pre>
+  <pre>{{headers}}</pre>
+  <pre>{{config}}</pre>
+  -->
+
 </div>
