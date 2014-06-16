@@ -8,3 +8,11 @@ textarea.melting_temps_input {
   left: 10px;
   top: 10px;
 }
+
+.error {
+	color: red;
+}
+
+.success {
+	color: green;
+}

@@ -2,7 +2,7 @@
   <div class="page-header">
     <h2>Probe Design</h2>
   </div>
-  
+
   <form role="form">
     <div class="form-group">
       <label for="targetsFile"> Upload Targets File: </label> <input
@@ -10,9 +10,8 @@
       <button class="btn btn-default" ng-click="uploadTargetsFile()"
         ng-disabled="loadingTargets || !targetsFile">Upload
         Targets</button>
-      <div ng-show="!loadingTargets && targetsFileUploadStatus">
-        <p class="help-block">{{targetsFileUploadStatus}}</p>
-      </div>
+      <div ng-show="!loadingTargets && targetsFileUploadStatus"
+        ng-bind-html="targetsFileUploadStatus"></div>
       <br>
       <div ng-show="loadingTargets">
         <p>
@@ -31,9 +30,8 @@
       <button class="btn btn-default" ng-click="uploadProbesFile()"
         ng-disabled="loadingProbes || !probesFile">Upload
         Probes</button>
-      <div ng-show="!loadingProbes && probesFileUploadStatus">
-        <p class="help-block">{{probesFileUploadStatus}}</p>
-      </div>
+      <div ng-show="!loadingProbes && probesFileUploadStatus"
+        ng-bind-html="probesFileUploadStatus"></div>
       <div ng-show="loadingProbes">
         <p>
           <img src="images/loading.gif" id="loading-indicator" />

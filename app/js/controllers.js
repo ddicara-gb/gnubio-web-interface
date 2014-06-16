@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('BioinformaticsApp.controllers', [])
+angular.module('BioinformaticsApp.controllers', ['ngSanitize'])
 	.controller('tempsController', function($scope, meltingTempAPIservice) {
 		$scope.results = null;
 		$scope.loading = false;
@@ -70,12 +70,12 @@ angular.module('BioinformaticsApp.controllers', [])
 			targetsFileUploadService.uploadFileToUrl(targetsFile)
 			.success(function(data, status, headers, config) {
 				$scope.loadingTargets = false;
-				$scope.targetsFileUploadStatus = "Upload successful.";
+				$scope.targetsFileUploadStatus = "<p class=\"success\">Upload successful.</p>";
 			})
 			.error(function(data, status, headers, config) {
 				$scope.loadingTargets = false;
+				$scope.targetsFileUploadStatus = "<p class=\"error\">Upload failed: " + data["error"] + "</p>";
 			});
-			$scope.targetsFileUploadStatus = "Upload failed: " + data["error"];
 		};
 		
 		$scope.uploadProbesFile = function(){
@@ -85,11 +85,11 @@ angular.module('BioinformaticsApp.controllers', [])
 			probesFileUploadService.uploadFileToUrl(probesFile)
 			.success(function(data, status, headers, config) {
 				$scope.loadingProbes = false;
-				$scope.probesFileUploadStatus = "Upload successful.";
+				$scope.probesFileUploadStatus = "<p class=\"success\">Upload successful.</p>";
 			})
 			.error(function(data, status, headers, config) {
 				$scope.loadingProbes = false;
-				$scope.probesFileUploadStatus = "Upload failed: " + data["error"];
+				$scope.probesFileUploadStatus = "<p class=\"error\">Upload failed: " + data["error"] + "</p>";
 			});
 		};
 	})
