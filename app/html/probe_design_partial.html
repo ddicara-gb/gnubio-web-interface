@@ -2,26 +2,44 @@
   <div class="page-header">
     <h2>Probe Design</h2>
   </div>
-  <form name="targets_file_upload_form">
-    <input type="file" file-model="targetsFile" />
-    <button class="btn btn-default" ng-click="uploadFile()"
-      ng-disabled="loading || !targetsFile">Submit</button>
+  
+  <form role="form">
+    <div class="form-group">
+      <label for="targetsFile"> Upload Targets File: </label> <input
+        type="file" id=targetsFile file-model="targetsFile" /> <br>
+      <button class="btn btn-default" ng-click="uploadTargetsFile()"
+        ng-disabled="loadingTargets || !targetsFile">Upload
+        Targets</button>
+      <div ng-show="!loadingTargets && targetsFileUploadStatus">
+        <p class="help-block">{{targetsFileUploadStatus}}</p>
+      </div>
+      <br>
+      <div ng-show="loadingTargets">
+        <p>
+          <img src="images/loading.gif" id="loading-indicator" />
+          Uploading targets file...
+        </p>
+      </div>
+    </div>
   </form>
-  <div ng-show="loading">
-    <p>
-      <img src="images/loading.gif" id="loading-indicator" /> Uploading
-      file...
-    </p>
-  </div>
-  <div ng-show="!loading && status">
-    <pre>File upload completed with status code {{status}}</pre>
-  </div>
 
-  <!-- 
-  <pre>{{data}}</pre>
-  <pre>{{status}}</pre>
-  <pre>{{headers}}</pre>
-  <pre>{{config}}</pre>
-  -->
-
+  <form role="form">
+    <div class="form-group">
+      <label for="probesFile">Upload Probes file: </label> <input
+        type="file" id="probesFile" file-model="probesFile"
+        value="Probes File" /> <br>
+      <button class="btn btn-default" ng-click="uploadProbesFile()"
+        ng-disabled="loadingProbes || !probesFile">Upload
+        Probes</button>
+      <div ng-show="!loadingProbes && probesFileUploadStatus">
+        <p class="help-block">{{probesFileUploadStatus}}</p>
+      </div>
+      <div ng-show="loadingProbes">
+        <p>
+          <img src="images/loading.gif" id="loading-indicator" />
+          Uploading probes file...
+        </p>
+      </div>
+    </div>
+  </form>
 </div>

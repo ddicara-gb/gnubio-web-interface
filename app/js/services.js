@@ -35,4 +35,19 @@ angular.module('BioinformaticsApp.services', ['ngResource'])
 		}
 		return uploadTargetsFileAPI;
 	})
+	.factory('probesFileUploadService', function ($http) {
+		
+		var uploadProbesFileAPI = {}
+		var uploadUrl = [restBaseUrl, 'ProbeDesign', 'Probes'].join('/');
+		
+		uploadProbesFileAPI.uploadFileToUrl = function(probesFile){
+			var fd = new FormData();
+			fd.append('file', probesFile);
+			return $http.post(uploadUrl, fd, {
+				transformRequest: angular.identity,
+				headers: {'Content-Type': undefined}
+			});
+		}
+		return uploadProbesFileAPI;
+	})
 	.value('version', '0.1');

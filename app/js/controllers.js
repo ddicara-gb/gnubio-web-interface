@@ -57,31 +57,39 @@ angular.module('BioinformaticsApp.controllers', [])
 			}
 		}
 	})
-	.controller('probeDesignController', function($scope, targetsFileUploadService){
-		$scope.loading=false;
-		$scope.data = null;
-		$scope.status = null;
-		$scope.headers = null;
-		$scope.config = null;
+	.controller('probeDesignController', function($scope, targetsFileUploadService, probesFileUploadService){
+		$scope.loadingTargets          = false;
+		$scope.loadingProbes           = false;
+		$scope.targetsFileUploadStatus = null;
+		$scope.probesFileUploadStatus  = null;
 		
-		$scope.uploadFile = function(){
-			$scope.loading=true;
+		$scope.uploadTargetsFile = function(){
+			$scope.loadingTargets=true;
 			var targetsFile = $scope.targetsFile;
 			console.log('file is ' + JSON.stringify(targetsFile));
 			targetsFileUploadService.uploadFileToUrl(targetsFile)
 			.success(function(data, status, headers, config) {
-				$scope.loading = false;
-				$scope.data = data;
-				$scope.status = status;
-				$scope.headers = headers;
-				$scope.config = config;
+				$scope.loadingTargets = false;
+				$scope.targetsFileUploadStatus = "Upload successful.";
 			})
 			.error(function(data, status, headers, config) {
-				$scope.loading = false;
-				$scope.data = data;
-				$scope.status = status;
-				$scope.headers = headers;
-				$scope.config = config;
+				$scope.loadingTargets = false;
+			});
+			$scope.targetsFileUploadStatus = "Upload failed: " + data["error"];
+		};
+		
+		$scope.uploadProbesFile = function(){
+			$scope.loadingProbes=true;
+			var probesFile = $scope.probesFile;
+			console.log('file is ' + JSON.stringify(probesFile));
+			probesFileUploadService.uploadFileToUrl(probesFile)
+			.success(function(data, status, headers, config) {
+				$scope.loadingProbes = false;
+				$scope.probesFileUploadStatus = "Upload successful.";
+			})
+			.error(function(data, status, headers, config) {
+				$scope.loadingProbes = false;
+				$scope.probesFileUploadStatus = "Upload failed: " + data["error"];
 			});
 		};
 	})
