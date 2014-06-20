@@ -1,6 +1,6 @@
 'use strict';
 
-window.restBaseUrl = 'http://bioweb:8020/api/v1';
+window.restBaseUrl = 'http://localhost:8020/api/v1';
 
 angular.module('BioinformaticsApp.services', ['ngResource'])
 	.factory('meltingTempAPIservice', function($http) {
@@ -49,5 +49,41 @@ angular.module('BioinformaticsApp.services', ['ngResource'])
 			});
 		}
 		return uploadProbesFileAPI;
+	})
+	.factory('listTargetsFilesService', function($http) {
+		var listTargetsFilesAPI = {};
+		var url = [restBaseUrl, 'ProbeDesign', 'Targets'].join('/');
+		
+		listTargetsFilesAPI.listTargetsFiles = function() {
+			return $http.get(url);
+		}
+		return listTargetsFilesAPI;
+	})
+	.factory('deleteTargetsFileService', function($http) {
+		var deleteTargetsFileAPI = {};
+		var url = [restBaseUrl, 'ProbeDesign', 'Targets?uuid='].join('/');
+		
+		deleteTargetsFileAPI.deleteTargetsFile = function(uuid) {
+			return $http.delete(url + uuid);
+		}
+		return deleteTargetsFileAPI;
+	})
+	.factory('listProbesFilesService', function($http) {
+		var listProbesFilesAPI = {};
+		var url = [restBaseUrl, 'ProbeDesign', 'Probes'].join('/');
+		
+		listProbesFilesAPI.listProbesFiles = function() {
+			return $http.get(url);
+		}
+		return listProbesFilesAPI;
+	})
+	.factory('deleteProbesFileService', function($http) {
+		var deleteProbesFilesAPI = {};
+		var url = [restBaseUrl, 'ProbeDesign', 'Probes?uuid='].join('/');
+		
+		deleteProbesFilesAPI.deleteProbesFile = function(uuid) {
+			return $http.delete(url + uuid);
+		}
+		return deleteProbesFilesAPI;
 	})
 	.value('version', '0.1');
