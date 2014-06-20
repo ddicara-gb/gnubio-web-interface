@@ -3,41 +3,55 @@
     <h2>Probe Design</h2>
   </div>
 
-  <form role="form">
-    <div class="form-group">
-      <label for="targetsFile"> Upload Targets File: </label> <input
-        type="file" id=targetsFile file-model="targetsFile" /> <br>
-      <button class="btn btn-default" ng-click="uploadTargetsFile()"
-        ng-disabled="loadingTargets || !targetsFile">Upload
-        Targets</button>
-      <div ng-show="!loadingTargets && targetsFileUploadStatus"
-        ng-bind-html="targetsFileUploadStatus"></div>
-      <br>
-      <div ng-show="loadingTargets">
-        <p>
-          <img src="images/loading.gif" id="loading-indicator" />
-          Uploading targets file...
-        </p>
-      </div>
-    </div>
-  </form>
-
-  <form role="form">
-    <div class="form-group">
-      <label for="probesFile">Upload Probes file: </label> <input
-        type="file" id="probesFile" file-model="probesFile"
+  <h3>Upload targets and probes files for use in analysis below</h3>
+  <table style="table-layout: fixed" width="100%">
+    <tr>
+      <td><label> Targets File: </label> <input type="file"
+        id=targetsFile file-model="selTargFileUpload" /> <br>
+        <button class="btn btn-default" ng-click="uploadTargetsFile()"
+          ng-disabled="loadingTargets || !selTargFileUpload">{{targetsUpButtonText}}</button>
+        <div ng-show="loadingTargets || !targetsFileUploadStatus">
+          <br>
+        </div>
+        <div ng-show="!loadingTargets && targetsFileUploadStatus"
+          ng-bind-html="targetsFileUploadStatus"></div></td>
+      <td><label>Probes file: </label> <input type="file"
+        id="probesFile" file-model="selProbFileUpload"
         value="Probes File" /> <br>
-      <button class="btn btn-default" ng-click="uploadProbesFile()"
-        ng-disabled="loadingProbes || !probesFile">Upload
-        Probes</button>
-      <div ng-show="!loadingProbes && probesFileUploadStatus"
-        ng-bind-html="probesFileUploadStatus"></div>
-      <div ng-show="loadingProbes">
-        <p>
-          <img src="images/loading.gif" id="loading-indicator" />
-          Uploading probes file...
-        </p>
-      </div>
-    </div>
-  </form>
+        <button class="btn btn-default" ng-click="uploadProbesFile()"
+          ng-disabled="loadingProbes || !selProbFileUpload">{{probesUpButtonText}}</button>
+        <div ng-show="loadingProbes || !probesFileUploadStatus">
+          <br>
+        </div>
+        <div ng-show="!loadingProbes && probesFileUploadStatus"
+          ng-bind-html="probesFileUploadStatus"></div></td>
+    </tr>
+  </table>
+  <hr>
+  <h3>Choose files to perform analysis on or delete.</h3>
+  <table style="table-layout: fixed" width="100%">
+    <tr>
+      <td><label>Targets File: </label><select
+        class="btn btn-default" ng-model="selectedTargetsFile"
+        ng-options="tf.filename for tf in targetsFiles"">
+          <option value="">Choose File</option>
+      </select>
+        <button class="btn btn-default"
+          ng-really-message="Are you sure you want to delete this targets file: {{selectedTargetsFile.filename}}?"
+          ng-really-click="deleteTargetsFile()"
+          ng-disabled="deletingTargetsFile || !selectedTargetsFile">{{targetsDelButtonText}}</button>
+      </td>
+      <td><label>Probes File: </label><select
+        class="btn btn-default" ng-model="selectedProbesFile"
+        ng-options="pf.filename for pf in probesFiles">
+          <option value="">Choose File</option>
+      </select>
+        <button class="btn btn-default"
+          ng-really-message="Are you sure you want to delete this probes file: {{selectedProbesFile.filename}}?"
+          ng-really-click="deleteProbesFile()"
+          ng-disabled="deletingProbesFile || !selectedProbesFile">{{probesDelButtonText}}</button>
+      </td>
+    </tr>
+  </table>
+
 </div>
