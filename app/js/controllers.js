@@ -57,143 +57,143 @@ angular.module('BioinformaticsApp.controllers', ['ngSanitize'])
 			}
 		}
 	})
-	.controller('probeDesignController', pdc($scope, targetsFileUploadService,
-			probesFileUploadService, listTargetsFilesService, 
-			listProbesFilesService, deleteTargetsFileService, 
-			deleteProbesFileService))
-//	.controller('probeDesignController', function($scope, targetsFileUploadService,
+//	.controller('probeDesignController', pdc($scope, targetsFileUploadService,
 //			probesFileUploadService, listTargetsFilesService, 
 //			listProbesFilesService, deleteTargetsFileService, 
-//			deleteProbesFileService){
-//		$scope.loadingTargets          = false;
-//		$scope.loadingProbes           = false;
-//		$scope.deletingTargetsFile     = false;
-//		$scope.deletingProbesFile      = false;
-//		$scope.targetsFileUploadStatus = null;
-//		$scope.probesFileUploadStatus  = null;
-//		$scope.targetsFiles            = Array();
-//		$scope.probesFiles             = Array();
-//		$scope.selectedTargetsFile     = null;
-//		$scope.selectedProbesFile      = null;
-//		$scope.targetsUpButtonText     = "Upload File";
-//		$scope.probesUpButtonText      = "Upload File";
-//		$scope.targetsDelButtonText    = "Delete File";
-//		$scope.probesDelButtonText     = "Delete File";
-//		
-//		$scope.uploadTargetsFile = function(){
-//			$scope.loadingTargets      = true;
-//			$scope.targetsUpButtonText = "Uploading File...";
-//			console.log('file is ' + JSON.stringify($scope.selTargFileUpload));
-//			targetsFileUploadService.uploadFileToUrl($scope.selTargFileUpload)
-//			.success(function(data, status, headers, config) {
-//				$scope.loadingTargets = false;
-//				$scope.targetsFileUploadStatus = "<p class=\"success\">Upload successful.</p>";
-//				$scope.listTargetsFiles();
-//				$scope.targetsUpButtonText = "Upload File";
-//			})
-//			.error(function(data, status, headers, config) {
-//				$scope.loadingTargets = false;
-//				$scope.targetsFileUploadStatus = "<p class=\"error\">Upload failed: " + data["error"] + "</p>";
-//				$scope.targetsUpButtonText = "Upload File";
-//			});
-//		};
-//		
-//		$scope.uploadProbesFile = function(){
-//			$scope.loadingProbes     = true;
-//			$scope.probesUpButtonText = "Uploading File...";
-//			console.log('file is ' + JSON.stringify($scope.selProbFileUpload));
-//			probesFileUploadService.uploadFileToUrl($scope.selProbFileUpload)
-//			.success(function(data, status, headers, config) {
-//				$scope.loadingProbes = false;
-//				$scope.probesFileUploadStatus = "<p class=\"success\">Upload successful.</p>";
-//				$scope.listProbesFiles();
-//				$scope.probesUpButtonText = "Upload File";
-//			})
-//			.error(function(data, status, headers, config) {
-//				$scope.loadingProbes = false;
-//				$scope.probesFileUploadStatus = "<p class=\"error\">Upload failed: " + data["error"] + "</p>";
-//				$scope.probesUpButtonText = "Upload File";
-//			});
-//		};
-//		
-//		$scope.listTargetsFiles = function() {
-//			listTargetsFilesService.listTargetsFiles()
-//			.success(function(data, status, headers, config) {
-//				$scope.targetsFiles = Array();
-//				for (var i = 0; i < data["Targets"].length; i++) {
-//					var filename   = data["Targets"][i]["filename"];
-//					var uuid       = data["Targets"][i]["uuid"];
-//					var targetFile = {"filename": filename, "uuid": uuid};
-//					$scope.targetsFiles[$scope.targetsFiles.length] = targetFile
-//				}
-//			})
-//			.error(function(data, status, headers, config) {
-//				console.log('Failure retrieving targets files:' + JSON.stringify(data));
-//			});
-//		};
-//		$scope.listTargetsFiles();
-//		
-//		$scope.listProbesFiles = function() {
-//			listProbesFilesService.listProbesFiles()
-//			.success(function(data, status, headers, config) {
-//				$scope.probesFiles = Array();
-//				for (var i = 0; i < data["Probes"].length; i++) {
-//					var filename  = data["Probes"][i]["filename"];
-//					var uuid      = data["Probes"][i]["uuid"];
-//					var probeFile = {"filename": filename, "uuid": uuid};
-//					$scope.probesFiles[$scope.probesFiles.length] = probeFile
-//				}
-//			})
-//			.error(function(data, status, headers, config) {
-//				console.log('Failure retrieving probes files:' + JSON.stringify(data));
-//			});
-//		};
-//		$scope.listProbesFiles();
-//		
-//		$scope.deleteTargetsFile = function() {
-//			$scope.deletingTargetsFile  = true;
-//			$scope.targetsDelButtonText = "Deleting File...";
-//			deleteTargetsFileService.deleteTargetsFile($scope.selectedTargetsFile.uuid)
-//			.success(function(data, status, headers, config){
-//				console.log('Targets file successfully deleted: ' + $scope.selectedTargetsFile.filename)
-//				$scope.selectedTargetsFile  = null;
-//				$scope.listTargetsFiles();
-//				$scope.deletingTargetsFile  = false;
-//				$scope.targetsDelButtonText = "Delete File";
-//			})
-//			.error(function(data, status, headers, config){
-//				console.log('Targets file deletion failed: ' + $scope.selectedTargetsFile.filename)
-//				$scope.selectedTargetsFile  = null;
-//				$scope.listTargetsFiles();
-//				$scope.deletingTargetsFile  = false;
-//				$scope.targetsDelButtonText = "Delete File";
-//			});
-//		}
-//
-//		$scope.isDisabled = function() {
-//			return $scope.deletingProbesFile || !$scope.selectedProbesFile;
-//		}
-//		
-//		$scope.deleteProbesFile = function() {
-//			$scope.deletingProbesFile = true;
-//			$scope.probesDelButtonText = "Deleting File...";
-//			deleteProbesFileService.deleteProbesFile($scope.selectedProbesFile.uuid)
-//			.success(function(data, status, headers, config){
-//				console.log('Probes file successfully deleted: ' + $scope.selectedProbesFile.filename)
-//				$scope.selectedProbesFile = null;
-//				$scope.listProbesFiles();
-//				$scope.deletingProbesFile = false;
-//				$scope.probesDelButtonText = "Delete File";
-//			})
-//			.error(function(data, status, headers, config){
-//				console.log('Probes file deletion failed: ' + $scope.selectedProbesFile.filename)
-//				$scope.selectedProbesFile = null;
-//				$scope.listProbesFiles();
-//				$scope.deletingProbesFile = false;
-//				$scope.probesDelButtonText = "Delete File";
-//			});
-//		}
-//	})
+//			deleteProbesFileService))
+	.controller('probeDesignController', function($scope, targetsFileUploadService,
+			probesFileUploadService, listTargetsFilesService, 
+			listProbesFilesService, deleteTargetsFileService, 
+			deleteProbesFileService){
+		$scope.loadingTargets          = false;
+		$scope.loadingProbes           = false;
+		$scope.deletingTargetsFile     = false;
+		$scope.deletingProbesFile      = false;
+		$scope.targetsFileUploadStatus = null;
+		$scope.probesFileUploadStatus  = null;
+		$scope.targetsFiles            = Array();
+		$scope.probesFiles             = Array();
+		$scope.selectedTargetsFile     = null;
+		$scope.selectedProbesFile      = null;
+		$scope.targetsUpButtonText     = "Upload File";
+		$scope.probesUpButtonText      = "Upload File";
+		$scope.targetsDelButtonText    = "Delete File";
+		$scope.probesDelButtonText     = "Delete File";
+		
+		$scope.uploadTargetsFile = function(){
+			$scope.loadingTargets      = true;
+			$scope.targetsUpButtonText = "Uploading File...";
+			console.log('file is ' + JSON.stringify($scope.selTargFileUpload));
+			targetsFileUploadService.uploadFileToUrl($scope.selTargFileUpload)
+			.success(function(data, status, headers, config) {
+				$scope.loadingTargets = false;
+				$scope.targetsFileUploadStatus = "<p class=\"success\">Upload successful.</p>";
+				$scope.listTargetsFiles();
+				$scope.targetsUpButtonText = "Upload File";
+			})
+			.error(function(data, status, headers, config) {
+				$scope.loadingTargets = false;
+				$scope.targetsFileUploadStatus = "<p class=\"error\">Upload failed: " + data["error"] + "</p>";
+				$scope.targetsUpButtonText = "Upload File";
+			});
+		};
+		
+		$scope.uploadProbesFile = function(){
+			$scope.loadingProbes     = true;
+			$scope.probesUpButtonText = "Uploading File...";
+			console.log('file is ' + JSON.stringify($scope.selProbFileUpload));
+			probesFileUploadService.uploadFileToUrl($scope.selProbFileUpload)
+			.success(function(data, status, headers, config) {
+				$scope.loadingProbes = false;
+				$scope.probesFileUploadStatus = "<p class=\"success\">Upload successful.</p>";
+				$scope.listProbesFiles();
+				$scope.probesUpButtonText = "Upload File";
+			})
+			.error(function(data, status, headers, config) {
+				$scope.loadingProbes = false;
+				$scope.probesFileUploadStatus = "<p class=\"error\">Upload failed: " + data["error"] + "</p>";
+				$scope.probesUpButtonText = "Upload File";
+			});
+		};
+		
+		$scope.listTargetsFiles = function() {
+			listTargetsFilesService.listTargetsFiles()
+			.success(function(data, status, headers, config) {
+				$scope.targetsFiles = Array();
+				for (var i = 0; i < data["Targets"].length; i++) {
+					var filename   = data["Targets"][i]["filename"];
+					var uuid       = data["Targets"][i]["uuid"];
+					var targetFile = {"filename": filename, "uuid": uuid};
+					$scope.targetsFiles[$scope.targetsFiles.length] = targetFile
+				}
+			})
+			.error(function(data, status, headers, config) {
+				console.log('Failure retrieving targets files:' + JSON.stringify(data));
+			});
+		};
+		$scope.listTargetsFiles();
+		
+		$scope.listProbesFiles = function() {
+			listProbesFilesService.listProbesFiles()
+			.success(function(data, status, headers, config) {
+				$scope.probesFiles = Array();
+				for (var i = 0; i < data["Probes"].length; i++) {
+					var filename  = data["Probes"][i]["filename"];
+					var uuid      = data["Probes"][i]["uuid"];
+					var probeFile = {"filename": filename, "uuid": uuid};
+					$scope.probesFiles[$scope.probesFiles.length] = probeFile
+				}
+			})
+			.error(function(data, status, headers, config) {
+				console.log('Failure retrieving probes files:' + JSON.stringify(data));
+			});
+		};
+		$scope.listProbesFiles();
+		
+		$scope.deleteTargetsFile = function() {
+			$scope.deletingTargetsFile  = true;
+			$scope.targetsDelButtonText = "Deleting File...";
+			deleteTargetsFileService.deleteTargetsFile($scope.selectedTargetsFile.uuid)
+			.success(function(data, status, headers, config){
+				console.log('Targets file successfully deleted: ' + $scope.selectedTargetsFile.filename)
+				$scope.selectedTargetsFile  = null;
+				$scope.listTargetsFiles();
+				$scope.deletingTargetsFile  = false;
+				$scope.targetsDelButtonText = "Delete File";
+			})
+			.error(function(data, status, headers, config){
+				console.log('Targets file deletion failed: ' + $scope.selectedTargetsFile.filename)
+				$scope.selectedTargetsFile  = null;
+				$scope.listTargetsFiles();
+				$scope.deletingTargetsFile  = false;
+				$scope.targetsDelButtonText = "Delete File";
+			});
+		}
+
+		$scope.isDisabled = function() {
+			return $scope.deletingProbesFile || !$scope.selectedProbesFile;
+		}
+		
+		$scope.deleteProbesFile = function() {
+			$scope.deletingProbesFile = true;
+			$scope.probesDelButtonText = "Deleting File...";
+			deleteProbesFileService.deleteProbesFile($scope.selectedProbesFile.uuid)
+			.success(function(data, status, headers, config){
+				console.log('Probes file successfully deleted: ' + $scope.selectedProbesFile.filename)
+				$scope.selectedProbesFile = null;
+				$scope.listProbesFiles();
+				$scope.deletingProbesFile = false;
+				$scope.probesDelButtonText = "Delete File";
+			})
+			.error(function(data, status, headers, config){
+				console.log('Probes file deletion failed: ' + $scope.selectedProbesFile.filename)
+				$scope.selectedProbesFile = null;
+				$scope.listProbesFiles();
+				$scope.deletingProbesFile = false;
+				$scope.probesDelButtonText = "Delete File";
+			});
+		}
+	})
     .controller('homeController', function($scope) {
     	$scope.info = 'TODO: Add content.';
     })
