@@ -30,6 +30,10 @@ myApp.config(['$httpProvider', function($httpProvider) {
     	.when('/probe_design', {
     		templateUrl : 'html/probe_design_partial.html',
     		controller  : 'probeDesignController'
+    	})
+    	.when('/snp_search', {
+    		templateUrl : 'html/snp_search_partial.html',
+    		controller  : 'snpSearchController'
     	});
 }])
 .directive('fileModel', ['$parse', function ($parse) {

@@ -14,17 +14,17 @@ angular.module('BioinformaticsApp.controllers', [])
 
 				// Create an array of non-empty lines.
 				var lines = $scope.in_seq.replace(/^\s*[\r\n]/gm,'').split('\n');
-				var sequence_array = new Array(lines.length);
-				var names_array = new Array(lines.length);
+				var chr_num_array = new Array(lines.length);
+				var chr_start_array = new Array(lines.length);
 				
 				// Ignore header
 				for (var i = 0; i < lines.length; i++) { 
 					var fields = lines[i].split(/[\s,]+/);
-					names_array[i] = fields[0];
-					sequence_array[i] = fields[1];
+					chr_start_array[i] = fields[0];
+					chr_num_array[i] = fields[1];
 				}
-				var names     = names_array.join(',');
-				var sequences = sequence_array.join(',');
+				var names     = chr_start_array.join(',');
+				var sequences = chr_num_array.join(',');
 				meltingTempAPIservice.getTemp(names, sequences).success(function (response) {
 					$scope.results = response['IDT'];
 					$scope.loading = false;
@@ -96,8 +96,63 @@ angular.module('BioinformaticsApp.controllers', [])
     .controller('homeController', function($scope) {
     	$scope.info = 'TODO: Add content.';
     })
-    .controller('HeaderController', function($scope, $location) { 
-    	$scope.isActive = function (viewLocation) { 
+    .controller('snpSearchController', function($scope, snpSearchAPIservice) {
+        $scope.loading = false;
+		$scope.show_table = false;
+		$scope.query_failed = false;
+		$scope.get_snps = function() {
+			if ($scope.in_query) {
+				$scope.loading = true;
+				$scope.show_table = false;
+
+				var lines = $scope.in_query.replace(/^\s*[\r\n]/gm,'').split('\n');
+				var chr_num_array = new Array(lines.length);
+				var chr_start_array = new Array(lines.length);
+				var chr_stop_array = new Array(lines.length);
+
+				for (var i = 0; i < lines.length; i++) {
+					var fields = lines[i].split(/[\s,]+/);
+					chr_num_array[i] = fields[0];
+					chr_start_array[i] = fields[1];
+					chr_stop_array[i] = fields[2];
+				}
+				var chr_nums  = chr_num_array.join(',');
+				var chr_start = chr_start_array.join(',');
+				var chr_stop  = chr_stop_array.join(',');
+
+
+				snpSearchAPIservice.getSnps(chr_nums, chr_start, chr_stop).success(function (response) {
+					$scope.results = response['search'];
+					$scope.loading = false;
+					$scope.show_table = true;
+					$scope.query_failed = false;
+					var content_csv = 'SNP Database ID,ref,alt,chromosome, location';
+					for (var i = 0; i < $scope.results.length; i++) {
+						content_csv += '\n' + [$scope.results[i].rs,
+						                       $scope.results[i].ref,
+						                       $scope.results[i].alt,
+						                       $scope.results[i].chromosome,
+						                       $scope.results[i].loc
+						                      ].join(',');
+					}
+					var blob_csv = new Blob([ content_csv ], { type : 'text/plain' });
+					$scope.snp_csv = (window.URL || window.webkitURL).createObjectURL( blob_csv );
+
+				}).error(function(response) {
+					$scope.loading = false;
+					$scope.show_table = false;
+					$scope.query_failed = true;
+				});
+
+
+			} else {
+				$scope.show_table = false;
+				$scope.query_failed = true;
+			}
+		}
+    })
+    .controller('HeaderController', function($scope, $location) {
+    	$scope.isActive = function (viewLocation) {
     		return viewLocation === $location.path();
     	}
     });

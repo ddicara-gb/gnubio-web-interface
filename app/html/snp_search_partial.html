@@ -1,0 +1,77 @@
+<div ng-controller="snpSearchController">
+  <div class="page-header">
+    <h2>SNP Search</h2>
+  </div>
+
+  <div>
+    <p class="lead">Retrieve SNP information from NCBI's SNP database.
+      The following parameters are required:</p>
+    <div style="padding-left: 5em;">
+      <p>
+        Chromosome #: Chromosome to search<br>
+        Start Position: Position to start search<br>
+        End Postion: Position to end search<br>
+      </p>
+    </div>
+    <p class="lead">Paste a list of comma and/or space delimited
+      Chromosome/start/stop pairs below. Do not include a header and ensure that
+      each pair resides on its own line. For example, if you wanted to find the SNPS
+      on Chromosome 1 at positions 1-20000, Chromosome 5 at positions 20-600000, and
+      Chromosome X at position 2345 98888 you would type:</p>
+    <div style="padding-left: 5em;">
+      <p>
+        1 1 20000 <br>
+        5 20 600000 <br>
+        X 2345 98888
+      </p>
+    </div>
+  </div>
+  <div>
+    <form name="snp_form">
+      <textarea class="melting_temps_input" name="in_query" rows=10
+        ng-model="in_query" required
+        placeholder="Paste your comma or space delimited sequence input here.">
+              </textarea>
+      <br>
+      <button class="btn btn-default" ng-click="get_snps()"
+        ng-disabled="loading || snp_form.$invalid">Submit</button>
+    </form>
+  </div>
+  <h2 class="sub-header">Results</h2>
+  <div ng-show="loading">
+    <p>
+      <img src="images/loading.gif" id="loading-indicator" />
+      Processing your request. This may take a few minutes...
+    </p>
+  </div>
+  <div ng-show="!loading && query_failed">
+    <p>
+      <b>Query failed:</b> <em>Ensure your input is properly
+        formatted.</em>
+    </p>
+  </div>
+  <div class="table-responsive" ng-show="show_table">
+    <a download="snp_search.csv" ng-href="{{ snp_csv }}">Download CSV</a>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>SNP Database ID</th>
+          <th>Ref. Base</th>
+          <th>Alt. Base</th>
+          <th>Chromosome</th>
+          <th>Base #</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="entity in results">
+          <td>{{ entity.rs }}</td>
+          <td>{{ entity.ref }}</td>
+          <td>{{ entity.alt }}</td>
+          <td>{{ entity.chromosome }}</td>
+          <td>{{ entity.loc }}</td>
+        </tr>
+        <tr>
+      </tbody>
+    </table>
+  </div>
+</div>

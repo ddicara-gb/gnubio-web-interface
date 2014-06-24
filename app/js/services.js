@@ -20,6 +20,24 @@ angular.module('BioinformaticsApp.services', ['ngResource'])
 		}
 		return meltingTempAPI;
 	})
+	.factory('snpSearchAPIservice', function($http) {
+
+		var snpSearchAPI = {};
+		var url = [restBaseUrl, 'SNPSearch', 'search?'].join('/')
+
+		snpSearchAPI.getSnps = function(chr_nums, chr_starts, chr_stops) {
+			var query_url = url + ["chr_num=" + chr_nums,
+			                       "chr_start=" + chr_starts,
+			                       "chr_stop=" + chr_stops].join("&");
+			return $http({
+				method: 'GET',
+				url: query_url,
+				mozSystem: true,
+				cache: true
+			});
+		}
+		return snpSearchAPI;
+	})
 	.factory('targetsFileUploadService', function ($http) {
 		
 		var uploadTargetsFileAPI = {}
