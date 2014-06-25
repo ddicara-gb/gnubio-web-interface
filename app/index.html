@@ -25,7 +25,6 @@
         ng-controller="HeaderController">
         <ul class="nav navbar-nav">
           <li ng-class="{active: isActive('/')}"><a href="#">Home</a></li>
-          <li><a href="swagger/apis.html">APIs</a></li>
           <li ng-class="{active: isActive('/melting_temps')}"><a
             href="#melting_temps">Melting Temperatures</a></li>
           <li ng-class="{active: isActive('/probe_design')}"><a
@@ -33,10 +32,13 @@
           <li ng-class="{active: isActive('/snp_search')}"><a
             href="#snp_search">SNP Search</a></li>
         </ul>
+        <ul class="nav navbar-nav navbar-right">
+        <li><a href={{swagger_api_url}}>APIs</a></li>
+        </ul>
       </div>
     </div>
   </div>
-
+  
   <!-- this is where content will be injected -->
   <div class="container">
     <div ng-view></div>

@@ -1,9 +1,7 @@
 'use strict';
 
-window.restBaseUrl = 'http://localhost:8020/api/v1';
-
 angular.module('BioinformaticsApp.services', ['ngResource'])
-	.factory('meltingTempAPIservice', function($http) {
+	.factory('meltingTempAPIservice', function($http, restBaseUrl) {
 	
 		var meltingTempAPI = {};
 		var url = [restBaseUrl, 'MeltingTemperature', 'IDT?'].join('/')
@@ -20,7 +18,7 @@ angular.module('BioinformaticsApp.services', ['ngResource'])
 		}
 		return meltingTempAPI;
 	})
-	.factory('snpSearchAPIservice', function($http) {
+	.factory('snpSearchAPIservice', function($http, restBaseUrl) {
 
 		var snpSearchAPI = {};
 		var url = [restBaseUrl, 'SNPSearch', 'search?'].join('/')
@@ -38,7 +36,7 @@ angular.module('BioinformaticsApp.services', ['ngResource'])
 		}
 		return snpSearchAPI;
 	})
-	.factory('targetsFileUploadService', function ($http) {
+	.factory('targetsFileUploadService', function ($http, restBaseUrl) {
 		
 		var uploadTargetsFileAPI = {}
 		var uploadUrl = [restBaseUrl, 'ProbeDesign', 'Targets'].join('/');
@@ -53,7 +51,7 @@ angular.module('BioinformaticsApp.services', ['ngResource'])
 		}
 		return uploadTargetsFileAPI;
 	})
-	.factory('probesFileUploadService', function ($http) {
+	.factory('probesFileUploadService', function ($http, restBaseUrl) {
 		
 		var uploadProbesFileAPI = {}
 		var uploadUrl = [restBaseUrl, 'ProbeDesign', 'Probes'].join('/');
@@ -68,7 +66,7 @@ angular.module('BioinformaticsApp.services', ['ngResource'])
 		}
 		return uploadProbesFileAPI;
 	})
-	.factory('listTargetsFilesService', function($http) {
+	.factory('listTargetsFilesService', function($http, restBaseUrl) {
 		var listTargetsFilesAPI = {};
 		var url = [restBaseUrl, 'ProbeDesign', 'Targets'].join('/');
 		
@@ -77,7 +75,7 @@ angular.module('BioinformaticsApp.services', ['ngResource'])
 		}
 		return listTargetsFilesAPI;
 	})
-	.factory('deleteTargetsFileService', function($http) {
+	.factory('deleteTargetsFileService', function($http, restBaseUrl) {
 		var deleteTargetsFileAPI = {};
 		var url = [restBaseUrl, 'ProbeDesign', 'Targets?uuid='].join('/');
 		
@@ -86,7 +84,7 @@ angular.module('BioinformaticsApp.services', ['ngResource'])
 		}
 		return deleteTargetsFileAPI;
 	})
-	.factory('listProbesFilesService', function($http) {
+	.factory('listProbesFilesService', function($http, restBaseUrl) {
 		var listProbesFilesAPI = {};
 		var url = [restBaseUrl, 'ProbeDesign', 'Probes'].join('/');
 		
@@ -95,7 +93,7 @@ angular.module('BioinformaticsApp.services', ['ngResource'])
 		}
 		return listProbesFilesAPI;
 	})
-	.factory('deleteProbesFileService', function($http) {
+	.factory('deleteProbesFileService', function($http, restBaseUrl) {
 		var deleteProbesFilesAPI = {};
 		var url = [restBaseUrl, 'ProbeDesign', 'Probes?uuid='].join('/');
 		

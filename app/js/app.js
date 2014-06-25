@@ -6,6 +6,25 @@ var myApp = angular.module('BioinformaticsApp', [
     'BioinformaticsApp.services'
 ]);
 
+// Constants
+var dev = true;
+var hostname = "localhost";
+//var hostname = "bioweb";
+
+if (dev) {
+	var url = 'http://' + hostname + ':8020/api/v1'
+	myApp.value('restBaseUrl', url)
+	.run(function ($rootScope) {
+		$rootScope.swagger_api_url = 'http://bioweb/swagger-dev';
+	});
+} else {
+	var url = 'http://' + hostname + ':8010/api/v1'
+	myApp.value('restBaseUrl', url)
+	.run(function ($rootScope) {
+		$rootScope.swagger_api_url = 'http://bioweb/swagger-prod';
+	});
+}
+
 myApp.config(['$httpProvider', function($httpProvider) {
 	//http://better-inter.net/enabling-cors-in-angular-js/
     $httpProvider.defaults.useXDomain = true;
