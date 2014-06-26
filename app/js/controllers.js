@@ -106,33 +106,38 @@ angular.module('BioinformaticsApp.controllers', [])
 				$scope.show_table = false;
 
 				var lines = $scope.in_query.replace(/^\s*[\r\n]/gm,'').split('\n');
+				var search_name_array = new Array(lines.length);
 				var chr_num_array = new Array(lines.length);
 				var chr_start_array = new Array(lines.length);
 				var chr_stop_array = new Array(lines.length);
 
 				for (var i = 0; i < lines.length; i++) {
 					var fields = lines[i].split(/[\s,]+/);
-					chr_num_array[i] = fields[0];
-					chr_start_array[i] = fields[1];
-					chr_stop_array[i] = fields[2];
+					search_name_array[i] = fields[0];
+					chr_num_array[i] = fields[1];
+					chr_start_array[i] = fields[2];
+					chr_stop_array[i] = fields[3];
 				}
+				var search_names = search_name_array.join(',');
 				var chr_nums  = chr_num_array.join(',');
 				var chr_start = chr_start_array.join(',');
 				var chr_stop  = chr_stop_array.join(',');
 
 
-				snpSearchAPIservice.getSnps(chr_nums, chr_start, chr_stop).success(function (response) {
+				snpSearchAPIservice.getSnps(search_names, chr_nums, chr_start, chr_stop).success(function (response) {
 					$scope.results = response['search'];
 					$scope.loading = false;
 					$scope.show_table = true;
 					$scope.query_failed = false;
 					var content_csv = 'SNP Database ID,ref,alt,chromosome, location';
 					for (var i = 0; i < $scope.results.length; i++) {
-						content_csv += '\n' + [$scope.results[i].rs,
+						content_csv += '\n' + [$scope.results[i].search_name,
+						                       $scope.results[i].rs,
 						                       $scope.results[i].ref,
 						                       $scope.results[i].alt,
 						                       $scope.results[i].chromosome,
-						                       $scope.results[i].loc
+						                       $scope.results[i].loc,
+						                       $scope.results[i].validated.replace(",", " ")
 						                      ].join(',');
 					}
 					var blob_csv = new Blob([ content_csv ], { type : 'text/plain' });

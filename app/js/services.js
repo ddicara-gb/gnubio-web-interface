@@ -25,8 +25,9 @@ angular.module('BioinformaticsApp.services', ['ngResource'])
 		var snpSearchAPI = {};
 		var url = [restBaseUrl, 'SNPSearch', 'search?'].join('/')
 
-		snpSearchAPI.getSnps = function(chr_nums, chr_starts, chr_stops) {
-			var query_url = url + ["chr_num=" + chr_nums,
+		snpSearchAPI.getSnps = function(search_names, chr_nums, chr_starts, chr_stops) {
+			var query_url = url + ["snp_search_name=" + search_names,
+			                       "chr_num=" + chr_nums,
 			                       "chr_start=" + chr_starts,
 			                       "chr_stop=" + chr_stops].join("&");
 			return $http({

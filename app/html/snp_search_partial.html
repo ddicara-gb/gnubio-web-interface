@@ -14,15 +14,16 @@
       </p>
     </div>
     <p class="lead">Paste a list of comma and/or space delimited
-      Chromosome/start/stop pairs below. Do not include a header and ensure that
+      searchname/Chromosome/start/stop pairs below. The search name is a label to help
+      visualize the search results in the table.  Do not include a header and ensure that
       each pair resides on its own line. For example, if you wanted to find the SNPS
       on Chromosome 1 at positions 1-20000, Chromosome 5 at positions 20-600000, and
       Chromosome X at position 2345 98888 you would type:</p>
     <div style="padding-left: 5em;">
       <p>
-        1 1 20000 <br>
-        5 20 600000 <br>
-        X 2345 98888
+        search1 1 1 20000 <br>
+        search2 5 20 600000 <br>
+        search3 X 2345 98888
       </p>
     </div>
   </div>
@@ -55,20 +56,24 @@
     <table class="table table-striped">
       <thead>
         <tr>
+          <th>Search Label</th>
           <th>SNP Database ID</th>
           <th>Ref. Base</th>
           <th>Alt. Base</th>
           <th>Chromosome</th>
           <th>Base #</th>
+          <th>Validated</th>
         </tr>
       </thead>
       <tbody>
         <tr ng-repeat="entity in results">
+          <td>{{ entity.search_name }}</td>
           <td>{{ entity.rs }}</td>
           <td>{{ entity.ref }}</td>
           <td>{{ entity.alt }}</td>
           <td>{{ entity.chromosome }}</td>
           <td>{{ entity.loc }}</td>
+          <td>{{ entity.validated }}</td>
         </tr>
         <tr>
       </tbody>
