@@ -103,4 +103,23 @@ angular.module('BioinformaticsApp.services', ['ngResource'])
 		}
 		return deleteProbesFilesAPI;
 	})
+	.factory('submitAbsorptionJobService', function($http, restBaseUrl) {
+		var submitAbsorptionJobAPI = {};
+		var url = [restBaseUrl, 'ProbeDesign', 'Absorption?'].join('/');
+		submitAbsorptionJobAPI.submitJob = function(targetsFileUuid, probesFileUuid, jobName) {
+			var query_url = url + ["targets=" + targetsFileUuid,
+			                       "probes=" + probesFileUuid,
+			                       "job_name=" + jobName].join("&");
+			return $http.post(query_url);
+		}
+		return submitAbsorptionJobAPI;
+	})
+	.factory('getAbsorptionJobService', function($http, restBaseUrl) {
+		var getAbsorptionJobAPI = {};
+		var url = [restBaseUrl, 'ProbeDesign', 'Absorption'].join('/');
+		getAbsorptionJobAPI.getJobs = function() {
+			return $http.get(url);
+		}
+		return getAbsorptionJobAPI;
+	})
 	.value('version', '0.1');

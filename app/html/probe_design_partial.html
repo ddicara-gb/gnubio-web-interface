@@ -28,7 +28,7 @@
     </tr>
   </table>
   <hr>
-  <h3>Choose files to perform analysis on or delete.</h3>
+  <h3>Choose targets and probes on which to perform analyses.</h3>
   <table style="table-layout: fixed" width="100%">
     <tr>
       <td><label>Targets File: </label><select
@@ -53,5 +53,45 @@
       </td>
     </tr>
   </table>
+  <br>
+  <form name="abs_form">
+    <label>Unique Job Name:</label> <input type="text" name="JobName"
+      ng-model="job_name" placeholder="Job 1" required><br><br>
+    <button class="btn btn-default" ng-click="submitAbsorptionJob()"
+      ng-disabled="abs_form.$invalid || submittingAbsJob || deletingProbesFile || !selectedProbesFile || deletingTargetsFile || !selectedTargetsFile">{{absSubmitButtonText}}</button>
+  </form>
+  <div ng-show="!submittingAbsJob && absSubmitStatus"
+    ng-bind-html="absSubmitStatus"></div>
+  <div ng-show="submittingAbsJob || !absSubmitStatus">
+    <br>
+  </div>
+  <hr>
+  <h3>Submitted jobs status table</h3>
+  <button class="btn btn-default" ng-click="getAbsorptionJobs()"
+    ng-disabled="gettingAbsJobs">{{getAbsJobsButtonText}}</button>
+
+  <!-- 
+  <p>{{absorptionJobs}}</p>
+   -->
+
+  <div class="table-responsive" ng-show="showTable">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Status</th>
+          <th>Result URL</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="entity in absorptionJobs">
+          <td>{{ entity.job_name }}</td>
+          <td>{{ entity.status }}</td>
+          <td><a href="{{ entity.url }}" ng-show="entity.url">TSV</a></td>
+        </tr>
+        <tr>
+      </tbody>
+    </table>
+  </div>
 
 </div>
