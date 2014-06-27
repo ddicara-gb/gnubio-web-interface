@@ -100,7 +100,7 @@ angular.module('BioinformaticsApp.controllers', ['ngSanitize'])
 					$scope.targetsFileUploadStatus = "<p class=\"error\">Upload failed: File already exists - please delete the existing file and retry.</p>";
 				} else if (status == 415) {
 					$scope.targetsFileUploadStatus = "<p class=\"error\">Upload failed: File is not a valid FASTA file.</p>";
-				} else if (satus == 500) {
+				} else {
 					$scope.targetsFileUploadStatus = "<p class=\"error\">Upload failed: Server error occurred - please contact system administrator.</p>";
 				}
 				$scope.targetsUpButtonText = "Upload File";
@@ -124,7 +124,7 @@ angular.module('BioinformaticsApp.controllers', ['ngSanitize'])
 					$scope.probesFileUploadStatus = "<p class=\"error\">Upload failed: File already exists - please delete the existing file and retry.</p>";
 				} else if (status == 415) {
 					$scope.probesFileUploadStatus = "<p class=\"error\">Upload failed: File is not a valid FASTA file.</p>";
-				} else if (satus == 500) {
+				} else {
 					$scope.probesFileUploadStatus = "<p class=\"error\">Upload failed: Server error occurred - please contact system administrator.</p>";
 				}
 				$scope.probesUpButtonText = "Upload File";
