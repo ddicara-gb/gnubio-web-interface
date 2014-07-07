@@ -56,7 +56,8 @@
   <br>
   <form name="abs_form">
     <label>Unique Job Name:</label> <input type="text" name="JobName"
-      ng-model="job_name" placeholder="Job 1" required><br><br>
+      ng-model="job_name" placeholder="Job 1" required><br>
+    <br>
     <button class="btn btn-default" ng-click="submitAbsorptionJob()"
       ng-disabled="abs_form.$invalid || submittingAbsJob || deletingProbesFile || !selectedProbesFile || deletingTargetsFile || !selectedTargetsFile">{{absSubmitButtonText}}</button>
   </form>
@@ -79,15 +80,25 @@
       <thead>
         <tr>
           <th>Name</th>
+          <th>Submitted</th>
+          <th>Targets File</th>
+          <th>Probes File</th>
           <th>Status</th>
+          <th>Runtime</th>
           <th>Result</th>
+          <th>Delete Job</th>
         </tr>
       </thead>
       <tbody>
         <tr ng-repeat="entity in absorptionJobs">
           <td>{{ entity.job_name }}</td>
+          <td>{{ entity.submit_datestamp }}</td>
+          <td>{{ entity.targets_filename }}</td>
+          <td>{{ entity.probes_filename }}</td>
           <td>{{ entity.status }}</td>
+          <td>{{entity.runtime}}</td>
           <td><a href="{{ entity.url }}" ng-show="entity.url">TSV</a></td>
+          <td><button class="btn-link" ng-click="deleteAbsorptionJob(entity.uuid)">Delete</button></td>
         </tr>
         <tr>
       </tbody>

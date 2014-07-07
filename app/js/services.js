@@ -122,4 +122,12 @@ angular.module('BioinformaticsApp.services', ['ngResource'])
 		}
 		return getAbsorptionJobAPI;
 	})
+	.factory('deleteAbsorptionJobService', function($http, restBaseUrl) {
+		var deleteAbsorptionJobAPI = {};
+		var url = [restBaseUrl, 'ProbeDesign', 'Absorption?uuid='].join('/');
+		deleteAbsorptionJobAPI.deleteJob = function(absorptionUuid) {
+			return $http.delete(url + absorptionUuid);
+		}
+		return deleteAbsorptionJobAPI;
+	})
 	.value('version', '0.1');

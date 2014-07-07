@@ -61,7 +61,7 @@ angular.module('BioinformaticsApp.controllers', ['ngSanitize'])
 			probesFileUploadService, listTargetsFilesService, 
 			listProbesFilesService, deleteTargetsFileService, 
 			deleteProbesFileService, submitAbsorptionJobService,
-			getAbsorptionJobService){
+			getAbsorptionJobService, deleteAbsorptionJobService){
 		$scope.loadingTargets          = false;
 		$scope.loadingProbes           = false;
 		$scope.deletingTargetsFile     = false;
@@ -73,7 +73,9 @@ angular.module('BioinformaticsApp.controllers', ['ngSanitize'])
 		$scope.probesFileUploadStatus  = null;
 		$scope.absSubmitStatus         = null;
 		$scope.targetsFiles            = Array();
+		$scope.targetsFilesMap         = new Object();
 		$scope.probesFiles             = Array();
+		$scope.probesFilesMap          = new Object();
 		$scope.selectedTargetsFile     = null;
 		$scope.selectedProbesFile      = null;
 		$scope.targetsUpButtonText     = "Upload File";
@@ -134,12 +136,14 @@ angular.module('BioinformaticsApp.controllers', ['ngSanitize'])
 		$scope.listTargetsFiles = function() {
 			listTargetsFilesService.listTargetsFiles()
 			.success(function(data, status, headers, config) {
-				$scope.targetsFiles = Array();
+				$scope.targetsFiles    = Array();
+				$scope.targetsFilesMap = new Object();
 				for (var i = 0; i < data["Targets"].length; i++) {
 					var filename   = data["Targets"][i]["filename"];
 					var uuid       = data["Targets"][i]["uuid"];
 					var targetFile = {"filename": filename, "uuid": uuid};
 					$scope.targetsFiles[$scope.targetsFiles.length] = targetFile
+					$scope.targetsFilesMap[uuid] = filename
 				}
 			})
 			.error(function(data, status, headers, config) {
@@ -151,12 +155,14 @@ angular.module('BioinformaticsApp.controllers', ['ngSanitize'])
 		$scope.listProbesFiles = function() {
 			listProbesFilesService.listProbesFiles()
 			.success(function(data, status, headers, config) {
-				$scope.probesFiles = Array();
+				$scope.probesFiles    = Array();
+				$scope.probesFilesMap = new Object();
 				for (var i = 0; i < data["Probes"].length; i++) {
 					var filename  = data["Probes"][i]["filename"];
 					var uuid      = data["Probes"][i]["uuid"];
 					var probeFile = {"filename": filename, "uuid": uuid};
 					$scope.probesFiles[$scope.probesFiles.length] = probeFile
+					$scope.probesFilesMap[uuid] = filename
 				}
 			})
 			.error(function(data, status, headers, config) {
@@ -236,10 +242,51 @@ angular.module('BioinformaticsApp.controllers', ['ngSanitize'])
 			getAbsorptionJobService.getJobs()
 			.success(function(data, status, headers, config){
 				console.log('Absorption jobs successfully obtained');
-				$scope.absorptionJobs       = data['Absorption'];
+				$scope.absorptionJobs = data['Absorption'];
+				$scope.listTargetsFiles();
+				$scope.listProbesFiles();
+				for (var i = 0; i < $scope.absorptionJobs.length; i++) {
+					var job = $scope.absorptionJobs[i];
+					if ("start_datestamp" in job) {
+						var start = Date.parse(job["start_datestamp"]);
+						if ("finish_datestamp" in job) {
+							var end        = job["finish_datestamp"];
+							job["runtime"] =  getTimeDelta(start, Date.parse(end));
+						} else {
+							var d = new Date();
+							// getTimezoneOffset() returns minutes, but we need milliseconds
+							var end = d.getTime() - d.getTimezoneOffset()*60000.0;
+							console.log(d.getTimezoneOffset())
+							job["runtime"] = getTimeDelta(start, end);
+						}
+					} else {
+						job["runtime"] = "";
+					}
+					
+					if (job["targets"] in $scope.targetsFilesMap) {
+						job["targets_filename"] = $scope.targetsFilesMap[job["targets"]];
+					} else {
+						job["targets_filename"] = "File not found";
+					}
+					if (job["probes"] in $scope.probesFilesMap) {
+						job["probes_filename"] = $scope.probesFilesMap[job["probes"]];
+					} else {
+						job["probes_filename"] = "File not found";
+					}
+				}
+				$scope.absorptionJobs.sort(function(a,b){
+					  // Turn your strings into dates, and then subtract them
+					  // to get a value that is either negative, positive, or zero.
+					  return new Date(b["submit_datestamp"]) - new Date(a["submit_datestamp"]);
+				});
+				
 				$scope.getAbsJobsButtonText = "Refresh Table";
 				$scope.gettingAbsJobs       = false;
-				$scope.showTable            = true;
+				if ($scope.absorptionJobs.length > 0) {
+					$scope.showTable = true;
+				} else {
+					$scope.showTable = false;
+				}
 			})
 			.error(function(data, status, headers, config){
 				console.log('Failed to obtain absorption jobs');
@@ -249,6 +296,45 @@ angular.module('BioinformaticsApp.controllers', ['ngSanitize'])
 			});
 		}
 		$scope.getAbsorptionJobs();
+		
+		$scope.deleteAbsorptionJob = function(absorptionUuid) {
+			deleteAbsorptionJobService.deleteJob(absorptionUuid)
+			.success(function(data, status, headers, config){
+				console.log('Absorption job successfully deleted: ' + absorptionUuid);
+				$scope.getAbsorptionJobs();
+			})
+			.error(function(data, status, headers, config){
+				console.log('Absorption job deletion failed: ' + absorptionUuid)
+			});
+		}
+		
+		var getTimeDelta = function(startDate, endDate) {
+
+		    var seconds = Math.floor((endDate - startDate) / 1000);
+
+		    var interval = Math.floor(seconds / 31536000);
+
+		    if (interval > 1) {
+		        return interval + " years";
+		    }
+		    interval = Math.floor(seconds / 2592000);
+		    if (interval > 1) {
+		        return interval + " months";
+		    }
+		    interval = Math.floor(seconds / 86400);
+		    if (interval > 1) {
+		        return interval + " days";
+		    }
+		    interval = Math.floor(seconds / 3600);
+		    if (interval > 1) {
+		        return interval + " hours";
+		    }
+		    interval = Math.floor(seconds / 60);
+		    if (interval > 1) {
+		        return interval + " minutes";
+		    }
+		    return Math.floor(seconds) + " seconds";
+		}
 	})
     .controller('homeController', function($scope) {
     	$scope.info = 'TODO: Add content.';
