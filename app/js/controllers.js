@@ -273,6 +273,12 @@ angular.module('BioinformaticsApp.controllers', ['ngSanitize'])
 					} else {
 						job["probes_filename"] = "File not found";
 					}
+					var submit_datestamp = new Date(job["submit_datestamp"]);
+					// Time zone is correct in DB, not sure why correction is needed here
+					submit_datestamp.setHours(submit_datestamp.getHours()+4);
+					job["submit_time"] = submit_datestamp.toLocaleTimeString();
+					job["submit_time"] += " on " + submit_datestamp.toLocaleDateString();
+					
 				}
 				$scope.absorptionJobs.sort(function(a,b){
 					  // Turn your strings into dates, and then subtract them

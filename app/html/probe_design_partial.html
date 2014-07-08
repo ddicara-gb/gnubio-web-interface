@@ -3,7 +3,9 @@
     <h2>Probe Design</h2>
   </div>
 
-  <h3>Upload targets and probes files for use in analysis below</h3>
+  <h3>Upload Targets and Probes:</h3>
+  <p>Prior to running an analysis, input files must be uploaded to
+    the server.</p>
   <table style="table-layout: fixed" width="100%">
     <tr>
       <td><label> Targets File: </label> <input type="file"
@@ -28,7 +30,10 @@
     </tr>
   </table>
   <hr>
-  <h3>Choose targets and probes on which to perform analyses.</h3>
+  <h3>Perform Analysis:</h3>
+  <p>Choose the input files for this run and provide a unique job
+    name. Click submit to add this job to the queue. Status will then
+    display in the Job Status table below.</p>
   <table style="table-layout: fixed" width="100%">
     <tr>
       <td><label>Targets File: </label><select
@@ -67,7 +72,11 @@
     <br>
   </div>
   <hr>
-  <h3>Submitted jobs status table</h3>
+  <h3>Jobs Status:</h3>
+  <p>This table displays the status of all submitted jobs.
+    Furthermore, result links appear once a job finishes successfully.
+    WARNING: Deleting a job will remove all remnants of the job - please
+    do so with caution.</p>
   <button class="btn btn-default" ng-click="getAbsorptionJobs()"
     ng-disabled="gettingAbsJobs">{{getAbsJobsButtonText}}</button>
 
@@ -92,14 +101,15 @@
       <tbody>
         <tr ng-repeat="entity in absorptionJobs">
           <td>{{ entity.job_name }}</td>
-          <td>{{ entity.submit_datestamp }}</td>
+          <td>{{ entity.submit_time }}</td>
           <td>{{ entity.targets_filename }}</td>
           <td>{{ entity.probes_filename }}</td>
           <td>{{ entity.status }}</td>
-          <td>{{entity.runtime}}</td>
+          <td>{{ entity.runtime }}</td>
           <td><a href="{{ entity.url }}" ng-show="entity.url">TSV</a></td>
-          <td><button class="btn-link" ng-click="deleteAbsorptionJob(entity.uuid)">Delete</button></td>
-        </tr>
+          <td><button class="btn-link"
+              ng-really-message="Are you sure you want to delete this job: {{ entity.job_name }}?"
+              ng-really-click="deleteAbsorptionJob(entity.uuid)">Delete</button></td>
         <tr>
       </tbody>
     </table>
